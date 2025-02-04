@@ -1,5 +1,6 @@
 package ar.edu.utn.frc.tup.lciii.service;
 
+import ar.edu.utn.frc.tup.lciii.dtos.DevicePostDto;
 import ar.edu.utn.frc.tup.lciii.exception.GlobalExceptionHandler;
 import ar.edu.utn.frc.tup.lciii.model.Device;
 import ar.edu.utn.frc.tup.lciii.model.DeviceType;
@@ -22,12 +23,13 @@ public class DeviceServiceImpl implements DeviceService {
     private final TelemetryRepository telemetryRepository;
     private final RestTemplate restTemplate;
 
-    public Device postDevice(Device device) {
+    public DevicePostDto postDevice(Device device) {
         if (deviceRepository.findById(device.getHostName()).isPresent()) {
             throw new IllegalArgumentException("Ya existe un dispositivo con ese id.");
         }
+        deviceRepository.save(device);
 
-        return deviceRepository.save(device);
+        return new DevicePostDto(device.getHostName(), device.getType(), device.getOs(), device.getMacAddress());
     }
 
     public List<Device> getDevicesByType(DeviceType type) {

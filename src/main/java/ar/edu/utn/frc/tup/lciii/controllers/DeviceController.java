@@ -1,5 +1,6 @@
 package ar.edu.utn.frc.tup.lciii.controllers;
 
+import ar.edu.utn.frc.tup.lciii.dtos.DevicePostDto;
 import ar.edu.utn.frc.tup.lciii.model.Device;
 import ar.edu.utn.frc.tup.lciii.model.DeviceType;
 import ar.edu.utn.frc.tup.lciii.service.DeviceService;
@@ -16,7 +17,7 @@ public class DeviceController {
     private final DeviceService deviceService;
 
     @PostMapping("/device")
-    public ResponseEntity<Device> getDevice(@RequestBody Device device) {
+    public ResponseEntity<DevicePostDto> getDevice(@RequestBody Device device) {
 
         return ResponseEntity.ok(deviceService.postDevice(device));
     }
