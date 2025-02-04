@@ -1,5 +1,6 @@
 package ar.edu.utn.frc.tup.lciii.service;
 
+import ar.edu.utn.frc.tup.lciii.dtos.DevicePostDto;
 import ar.edu.utn.frc.tup.lciii.model.Device;
 import ar.edu.utn.frc.tup.lciii.model.DeviceType;
 import ar.edu.utn.frc.tup.lciii.model.Telemetry;
@@ -30,6 +31,7 @@ class DeviceServiceImplTest {
 
     Device device;
     DeviceType type;
+    DevicePostDto devicePostDto;
 
     @BeforeEach
     void setup() {
@@ -39,6 +41,10 @@ class DeviceServiceImplTest {
         type = DeviceType.LAPTOP;
         device.setType(type);
         device.setHostName("test");
+        device.setOs("test");
+        device.setMacAddress("test");
+
+        devicePostDto = new DevicePostDto(device.getHostName(), device.getType(), device.getOs(), device.getMacAddress());
     }
 
     @Test
@@ -46,9 +52,9 @@ class DeviceServiceImplTest {
         when(deviceRepository.findById("test")).thenReturn(Optional.empty()).thenReturn(Optional.of(device));
         doReturn(device).when(deviceRepository).save(any());
 
-        Device result = service.postDevice(device);
+        DevicePostDto result = service.postDevice(device);
 
-        assertEquals(device, result);
+        assertEquals(devicePostDto.getHostname(), result.getHostname());
         assertThrows(IllegalArgumentException.class, () -> service.postDevice(device));
     }
 

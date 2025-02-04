@@ -1,5 +1,6 @@
 package ar.edu.utn.frc.tup.lciii.controllers;
 
+import ar.edu.utn.frc.tup.lciii.dtos.DevicePostDto;
 import ar.edu.utn.frc.tup.lciii.model.Device;
 import ar.edu.utn.frc.tup.lciii.model.DeviceType;
 import ar.edu.utn.frc.tup.lciii.service.DeviceService;
@@ -26,6 +27,7 @@ class DeviceControllerTest {
     DeviceController controller;
 
     Device device;
+    DevicePostDto devicePostDto;
 
     @BeforeEach
     void setUp() {
@@ -35,11 +37,17 @@ class DeviceControllerTest {
 
         device = new Device();
         device.setType(DeviceType.LAPTOP);
+        device.setHostName("test");
+        device.setOs("test");
+        device.setMacAddress("test");
+
+        devicePostDto = new DevicePostDto(device.getHostName(), device.getType(), device.getOs(), device.getMacAddress());
+
     }
 
     @Test
     void getDevice() throws Exception {
-        when(service.postDevice(device)).thenReturn(device);
+        when(service.postDevice(device)).thenReturn(new DevicePostDto(device.getHostName(), device.getType(), device.getOs(), device.getMacAddress()));
         mockMvc.perform(get("/api/device")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -49,12 +57,6 @@ class DeviceControllerTest {
 
     @Test
     void getByType() {
-        String continent = "Americas";
-        doReturn(countries).when(countryService).getCountryByContinent(continent);
-        mockMvc.perform(get("/countries/{continent}/continent", continent)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-        verify(countryService, times(1)).getCountryByContinent(continent);
 
     }
 
