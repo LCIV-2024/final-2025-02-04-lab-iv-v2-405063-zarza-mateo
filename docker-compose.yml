@@ -24,6 +24,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: final_db
+      MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
@@ -31,6 +32,9 @@ services:
     networks:
       - final-network
     restart: always
+
+volumes:
+  mysql-data:
 
 
 networks:

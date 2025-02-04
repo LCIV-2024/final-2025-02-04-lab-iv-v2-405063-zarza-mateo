@@ -58,4 +58,7 @@ public class Telemetry {
     @Column(name = "HOSTNAME")
     private String hostname;
 
+    @Column(name = "IP")
+    private String ip;
+
 }

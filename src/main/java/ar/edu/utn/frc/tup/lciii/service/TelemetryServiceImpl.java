@@ -1,16 +1,17 @@
 package ar.edu.utn.frc.tup.lciii.service;
 
-import ar.edu.utn.frc.tup.lciii.exception.GlobalExceptionHandler;
 import ar.edu.utn.frc.tup.lciii.model.Telemetry;
 import ar.edu.utn.frc.tup.lciii.repository.DeviceRepository;
 import ar.edu.utn.frc.tup.lciii.repository.TelemetryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class TelemetryServiceImpl implements TelemegryService{
+@Service
+public class TelemetryServiceImpl implements TelemetryService {
 
     private final DeviceRepository deviceRepository;
     private final TelemetryRepository telemetryRepository;
