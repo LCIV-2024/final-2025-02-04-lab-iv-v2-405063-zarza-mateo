@@ -20,7 +20,7 @@ public class TelemetryController {
     }
 
     @GetMapping("/telemetry")
-    List<TelemetryDto> getDevice(@PathVariable(required = false, value = "hostname") String hostname) {
+    List<TelemetryDto> getDevice(@RequestParam(required = false)  String hostname) {
         return service.getTelemetry(hostname);
     }
 

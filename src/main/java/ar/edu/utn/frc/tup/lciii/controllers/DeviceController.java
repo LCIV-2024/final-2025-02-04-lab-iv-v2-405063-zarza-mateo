@@ -7,6 +7,8 @@ import ar.edu.utn.frc.tup.lciii.model.Device;
 import ar.edu.utn.frc.tup.lciii.model.DeviceType;
 import ar.edu.utn.frc.tup.lciii.service.DeviceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,18 +20,20 @@ public class DeviceController {
     private final DeviceService service;
 
     @PostMapping("/device")
-    PostDeviceDto postDevice(@RequestBody PostDeviceDto device) {
-        return service.postDevice(device);
-    }
+    ResponseEntity<PostDeviceDto>  postDevice(@RequestBody PostDeviceDto device) {
+        return new ResponseEntity<>(service.postDevice(device), HttpStatus.CREATED);    }
 
-    @GetMapping("/device/{type}")
-    List<DeviceDto> getDevice(@RequestParam(required = false) DeviceType type) {
-        return service.getDevice(type);
-    }
+    @GetMapping("/device")
+    List<DeviceDto> getDevices(
+            @RequestParam(required = false) DeviceType type,
+            @RequestParam(required = false) Double lowThreshold,
+            @RequestParam(required = false) Double highThreshold) {
 
-    @GetMapping("/device/{lowThreshold}{highThreshold}")
-    List<DeviceDto> getDevicesByThreshold(@RequestParam(required = false) Double lowThreshold,
-                                          @RequestParam(required = false) Double highThreshold) {
-        return service.getDevicesByThreshold(lowThreshold, highThreshold);
+        if (type != null) {
+            return service.getDevice(type);
+        } else if (lowThreshold != null && highThreshold != null) {
+            return service.getDevicesByThreshold(lowThreshold, highThreshold);
+        }
+        return service.getDevice(null);
     }
 }
